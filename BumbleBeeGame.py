@@ -51,7 +51,7 @@ function create() {
   for (let i = 0; i < numberOfFlowers; i++) {
     // Generate random x and y coordinates for the flowers
     const x = 100 + Math.random() * (window.innerWidth - 200);
-    const y = window.innerHeight - 50 - Math.random() * 200;
+    const y = window.innerHeight - 200 - Math.random() * 100; // Adjust the y-coordinate range
 
     // Generate a random color for the flowers
     const colors = [0xff0000, 0x00ff00, 0x0000ff];
@@ -64,19 +64,8 @@ function create() {
     addPollen.call(this, x, y - 10);
   }
 
-  // Add the initial flowers and pollen
-  // addFlower.call(this, 100, window.innerHeight - 150, 0xff0000);
-  // addFlower.call(this, 200, window.innerHeight - 200, 0x00ff00);
-  // addFlower.call(this, 300, window.innerHeight - 170, 0x0000ff);
-
-  // addPollen.call(this, 100, window.innerHeight - 160);
-  // addPollen.call(this, 200, window.innerHeight - 210);
-  // addPollen.call(this, 300, window.innerHeight - 180);
-
-
   // Add collected pollen group
-this.collectedPollen = this.add.group();
-
+  this.collectedPollen = this.add.group();
 
  
   // Chat GTP Edit Part 3 Arcade Style Navigation Buttons
