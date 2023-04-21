@@ -1,9 +1,3 @@
-Published using Google Docs
-Learn MoreReport Abuse
-bumblebee_game.py
-Updated automatically every 5 minutes
-Bumblebee_game.py
-
 const config = {
 
   type: Phaser.AUTO,
