@@ -1,3 +1,5 @@
+  // Chat GTP Edit Part 1 
+
 const config = {
   type: Phaser.AUTO,
   width: window.innerWidth,
@@ -22,11 +24,15 @@ let gravityFactor = 1;
 let verticalVelocity = 0;
 let controllerBackground;
 let background;
+let score = 0;
+let scoreText;
 
 function preload() {
   // Load game assets here
 }
 
+
+  // Chat GTP Edit Part 2 Function Create Section
 
 function create() {
   background = this.add.tileSprite(0, 0, window.innerWidth * 2, window.innerHeight, 0x000099).setOrigin(0, 0);
@@ -48,8 +54,12 @@ function create() {
   addPollen.call(this, 200, window.innerHeight - 210);
   addPollen.call(this, 300, window.innerHeight - 180);
 
+  // Add collected pollen group
+this.collectedPollen = this.add.group();
 
-  
+
+ 
+  // Chat GTP Edit Part 3 Arcade Style Navigation Buttons
 
   // Add on-screen buttons
   controllerBackground = this.add.rectangle(window.innerWidth / 2, window.innerHeight - 50, window.innerWidth, 100, 0x008800);
@@ -74,7 +84,13 @@ function create() {
   // Create a camera that follows the bumblebee
   this.cameras.main.startFollow(bumblebee, true, 0.05, 0.05);
   this.cameras.main.setBounds(0, 0, window.innerWidth, window.innerHeight);
+
+// Add this line to create the score text object
+  scoreText = this.add.text(10, 10, `Score: ${score}`, { fontSize: '32px', color: '#ffffff' }).setDepth(5);
+  
 }
+
+
 
 function addFlower(x, y, color) {
   const flower = this.add.circle(x, y, 25, color);
@@ -82,11 +98,17 @@ function addFlower(x, y, color) {
   this.flowers.add(flower);
 }
 
+
 function addPollen(x, y) {
   const pollen = this.add.circle(x, y, 5, 0xffff00);
   pollen.setDepth(3); // Set the pollen's depth
+  pollen.offset = { x: 0, y: 0 }; // Add offset property to store the initial offsets
   this.pollen.add(pollen);
 }
+
+
+  // Chat GTP Edit Part 4 Function Update
+
 
 function update() {
   if (leftButtonDown) {
@@ -96,6 +118,17 @@ function update() {
   } else {
     scrollSpeed = 0;
   }
+
+    // Add this line to call checkCollisions() function
+  checkCollisions.call(this);
+
+
+
+    // Update the position of the collected pollen using the stored offsets
+  this.collectedPollen.getChildren().forEach((pollen) => {
+    pollen.x = bumblebee.x + pollen.offset.x;
+    pollen.y = bumblebee.y + pollen.offset.y;
+  });
 
   // Move the background
   background.tilePositionX += scrollSpeed;
@@ -124,16 +157,23 @@ function update() {
     bumblebee.y = 50;
     verticalVelocity = 1;
   }
-}
 
 
+  function checkCollisions() {
+    // Check for collisions with pollen
+    this.pollen.getChildren().forEach((pollen) => {
+      if (Phaser.Geom.Intersects.RectangleToRectangle(bumblebee.getBounds(), pollen.getBounds())) {
+        this.pollen.remove(pollen); // Remove the pollen from the pollen group
+        this.collectedPollen.add(pollen); // Add the pollen to the collectedPollen group
+        pollen.offset.x = pollen.x - bumblebee.x; // Calculate and store the initial X-offset
+        pollen.offset.y = pollen.y - bumblebee.y; // Calculate and store the initial Y-offset
+        score += 5; // Increase the score
+      }
+    });
 
-function addFlower(x, y, color) {
-  const flower = this.add.circle(x, y, 25, color);
-  this.flowers.add(flower);
-}
+    // Update the score text object
+    scoreText.setText(`Score: ${score}`);
+  }
+} // Move the closing brace here to fix the issue
+  
 
-function addPollen(x, y) {
-  const pollen = this.add.circle(x, y, 5, 0xffff00);
-  this.pollen.add(pollen);
-}
