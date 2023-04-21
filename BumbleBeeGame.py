@@ -1,5 +1,3 @@
-  // Chat GTP Edit Part 1 
-
 const config = {
   type: Phaser.AUTO,
   width: window.innerWidth,
@@ -41,18 +39,40 @@ function create() {
 
   // Add the hive
   const hive = this.add.rectangle(50, window.innerHeight - 50, 100, 100, 0x996633);
-
   // Add flowers
   this.flowers = this.add.group();
-  addFlower.call(this, 100, window.innerHeight - 150, 0xff0000);
-  addFlower.call(this, 200, window.innerHeight - 200, 0x00ff00);
-  addFlower.call(this, 300, window.innerHeight - 170, 0x0000ff);
-
+  
   // Add pollen
   this.pollen = this.add.group();
-  addPollen.call(this, 100, window.innerHeight - 160);
-  addPollen.call(this, 200, window.innerHeight - 210);
-  addPollen.call(this, 300, window.innerHeight - 180);
+
+  // Determine the number of flowers you want to create
+  const numberOfFlowers = 10;
+
+  for (let i = 0; i < numberOfFlowers; i++) {
+    // Generate random x and y coordinates for the flowers
+    const x = 100 + Math.random() * (window.innerWidth - 200);
+    const y = window.innerHeight - 50 - Math.random() * 200;
+
+    // Generate a random color for the flowers
+    const colors = [0xff0000, 0x00ff00, 0x0000ff];
+    const color = colors[Math.floor(Math.random() * colors.length)];
+
+    // Add the flower at the generated coordinates with the random color
+    addFlower.call(this, x, y, color);
+
+    // Add the pollen at the generated coordinates
+    addPollen.call(this, x, y - 10);
+  }
+
+  // Add the initial flowers and pollen
+  // addFlower.call(this, 100, window.innerHeight - 150, 0xff0000);
+  // addFlower.call(this, 200, window.innerHeight - 200, 0x00ff00);
+  // addFlower.call(this, 300, window.innerHeight - 170, 0x0000ff);
+
+  // addPollen.call(this, 100, window.innerHeight - 160);
+  // addPollen.call(this, 200, window.innerHeight - 210);
+  // addPollen.call(this, 300, window.innerHeight - 180);
+
 
   // Add collected pollen group
 this.collectedPollen = this.add.group();
@@ -175,5 +195,3 @@ function update() {
     scoreText.setText(`Score: ${score}`);
   }
 } // Move the closing brace here to fix the issue
-  
-
