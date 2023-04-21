@@ -50,9 +50,17 @@ function create() {
 
   for (let i = 0; i < numberOfFlowers; i++) {
     // Generate random x and y coordinates for the flowers
-    const x = 100 + Math.random() * (window.innerWidth - 200);
-    const y = window.innerHeight - 200 - Math.random() * 100; // Adjust the y-coordinate range
-
+    let x, y;
+    do {
+      x = 100 + Math.random() * (window.innerWidth - 200);
+      y = window.innerHeight - 200 - Math.random() * 100; // Adjust the y-coordinate range
+    } while (this.flowers.getChildren().some(flower => {
+      return Phaser.Geom.Intersects.CircleToCircle(
+        new Phaser.Geom.Circle(x, y, 25),
+        new Phaser.Geom.Circle(flower.x, flower.y, 25)
+      );
+    }));
+    
     // Generate a random color for the flowers
     const colors = [0xff0000, 0x00ff00, 0x0000ff];
     const color = colors[Math.floor(Math.random() * colors.length)];
